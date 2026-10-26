@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>iPhone Home Screen Designer</title>
+<style>
+:root{--bg:#f2f2f7;--card:#fff;--tx:#111;--mut:#6b6b73;--ln:#d8d8de;--ac:#0a84ff}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--tx:#f2f2f7;--mut:#9a9aa2;--ln:#38383a}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;padding:16px 12px 40px}
+.layout{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start}
+.side{flex:1 1 320px;max-width:420px;min-width:290px}
+.frame{width:390px;max-width:100%;flex:none;border-radius:62px;background:#0b0b0c;padding:11px;box-shadow:0 0 0 2px #3a3a3d,0 20px 50px rgba(0,0,0,.4)}
+.phone{position:relative;width:100%;aspect-ratio:1170/2532;border-radius:51px;overflow:hidden;color:#fff;container-type:inline-size;background-size:cover;background-position:center;user-select:none;-webkit-user-select:none;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+.island{position:absolute;top:3cqw;left:50%;transform:translateX(-50%);width:31cqw;height:9cqw;background:#000;border-radius:10cqw;z-index:20}
+.status{position:absolute;top:0;left:0;right:0;height:14cqw;display:flex;justify-content:space-between;align-items:center;padding:1.5cqw 6.6cqw 0 8.4cqw;font-size:4.5cqw;font-weight:600;z-index:19}
+.status .l,.status .r{display:flex;gap:1.8cqw;align-items:center}.status svg{fill:#fff}
+.bat{position:relative;width:7.2cqw;height:3.6cqw;border-radius:1.4cqw;display:flex;align-items:center;justify-content:center;font-size:3cqw;font-weight:700;color:#1a1a1a;overflow:hidden}
+.bat:after{content:"";position:absolute;right:-1.1cqw;top:1.1cqw;width:.6cqw;height:1.4cqw;background:rgba(255,255,255,.5);border-radius:0 .5cqw .5cqw 0}
+.grid{position:absolute;top:23cqw;left:0;right:0;padding:0 4.7cqw;display:grid;grid-template-columns:repeat(4,19.1cqw);column-gap:4.6cqw;grid-auto-rows:23.7cqw}
+.labels .grid{grid-auto-rows:25.6cqw}
+.app{display:flex;flex-direction:column;align-items:center;gap:1cqw;cursor:pointer;min-width:0;transition:transform .15s;height:100%}
+.app:active{transform:scale(.93)}
+.app .n{font-size:3.1cqw;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+.ic{position:relative;width:19.1cqw;height:19.1cqw;border-radius:22.4%;display:flex;align-items:center;justify-content:center;font-size:10cqw;font-weight:600;flex:none;box-shadow:0 .5cqw 1.6cqw rgba(0,0,0,.25)}
+.ic img{width:100%;height:100%;border-radius:22.4%;display:block;object-fit:cover}
+.sel .ic{outline:.8cqw solid #fff;outline-offset:.6cqw}
+.moving .app.empty{outline:.4cqw dashed rgba(255,255,255,.55);outline-offset:-.4cqw;border-radius:5cqw;height:19.1cqw}
+.badge{position:absolute;top:-1.8cqw;right:-1.8cqw;min-width:6.4cqw;height:6.4cqw;padding:0 1.8cqw;border-radius:3.2cqw;background:#ff3b30;font-size:3.8cqw;font-weight:600;display:flex;align-items:center;justify-content:center}
+.search{position:absolute;left:50%;transform:translateX(-50%);bottom:30.8cqw;width:20.6cqw;height:7.4cqw;border-radius:4cqw;background:rgba(255,255,255,.1);border:.3cqw solid rgba(255,255,255,.28);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-size:3.9cqw;font-weight:500;display:flex;gap:1.2cqw;align-items:center;justify-content:center;color:rgba(255,255,255,.62)}
+.dock{position:absolute;left:2.5cqw;right:2.5cqw;bottom:2.7cqw;height:23.5cqw;border-radius:10cqw;background:rgba(255,255,255,.16);border:.3cqw solid rgba(255,255,255,.22);backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;justify-items:center;padding:0 1cqw}
+.dock .app{height:auto}.dock .app .n{display:none}.dock .app.empty{width:19.1cqw;height:19.1cqw}
+.home-ind{position:absolute;bottom:1.1cqw;left:50%;transform:translateX(-50%);width:36cqw;height:1.4cqw;border-radius:1cqw;background:#fff;z-index:20}
+.ban{display:flex;gap:3cqw;align-items:center;padding:3.2cqw 3.6cqw;border-radius:8cqw;background:rgba(48,48,52,.78);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);box-shadow:0 2cqw 6cqw rgba(0,0,0,.25);text-align:left}
+.ban .ic{width:9.4cqw;height:9.4cqw;font-size:5cqw;box-shadow:none}
+.ban .tx{min-width:0;flex:1}.ban b{display:block;font-size:3.7cqw;font-weight:600}.ban small{font-size:3.5cqw;line-height:1.25;opacity:.92;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ban .t{font-size:3cqw;opacity:.6;align-self:flex-start}
+.pop{position:absolute;top:12cqw;left:3cqw;right:3cqw;z-index:18;animation:drop .45s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes drop{from{transform:translateY(-120%);opacity:0}to{transform:none;opacity:1}}
+.lock{position:absolute;inset:0;z-index:10;text-align:center;padding-top:19cqw}
+.lock .d{font-size:4.8cqw;font-weight:500;opacity:.92}.lock .c{font-size:27cqw;font-weight:600;line-height:1;letter-spacing:-.5cqw}
+.lock .list{position:absolute;left:3.5cqw;right:3.5cqw;top:62cqw;bottom:36cqw;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:2cqw}
+.lock .btn2{position:absolute;bottom:14cqw;width:12.5cqw;height:12.5cqw;border-radius:50%;background:rgba(60,60,67,.5);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;font-size:5.4cqw}
+.panel{background:var(--card);border-radius:16px;padding:14px}
+.tabs{display:flex;background:var(--card);border-radius:10px;padding:3px;margin-bottom:12px}
+.tabs button{flex:1;padding:8px 0;border:0;border-radius:8px;background:none;color:var(--tx);font-size:14px;font-weight:600}.tabs button.on{background:var(--ac);color:#fff}
+input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-size:16px;margin:4px 0 10px;font-family:inherit}
+.btn{padding:9px 13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}
+.btn.g{background:var(--bg);color:var(--tx);border:1px solid var(--ln)}.btn.r{background:#ff3b30}.btn.s{padding:6px 10px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+label{font-size:12px;color:var(--mut)}p.h{font-size:12px;color:var(--mut);margin:8px 0 0;line-height:1.4}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--tx);margin:6px 0}.chk input{width:auto;margin:0}
+.res{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln)}
+.res .ic{width:48px;height:48px;font-size:24px;box-shadow:none}.res .m{flex:1;min-width:0}.res b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.res small{color:var(--mut);font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sw{width:44px;height:44px;border-radius:12px;border:3px solid transparent;cursor:pointer;background-size:cover}.sw.on{border-color:var(--ac)}
+.err{color:#ff3b30;font-size:13px;margin:6px 0}
+@media (max-width:560px){body{padding:0 0 40px}.layout{gap:12px}.frame{width:100%;padding:0;border-radius:0;box-shadow:none;background:none}.phone{border-radius:0}.island{display:none}.side{padding:0 12px}}
+</style></head><body>
+<div class="layout">
+<div class="frame"><div class="phone" id="phone"></div></div>
+<div class="side"><div class="tabs" id="tabs"></div><div class="panel" id="panel"></div></div>
+</div>
+<script>
+const SYS=[["Phone","linear-gradient(#5fe07c,#1fb83f)","📞"],["Messages","linear-gradient(#5fe07c,#1fb83f)","💬"],["Safari","linear-gradient(#fff,#e8f0ff)","🧭"],["Mail","linear-gradient(#4aa8ff,#1067f0)","✉️"],["Camera","linear-gradient(#bdbdc2,#8a8a90)","📷"],["Photos","linear-gradient(#fff,#f3f3f3)","🌸"],["Maps","linear-gradient(#8fe08c,#4aa8ff)","🗺️"],["Weather","linear-gradient(#4a9eff,#1c5fd1)","⛅"],["Clock","#111","🕘"],["Notes","linear-gradient(#ffe36e,#ffd60a)","📝"],["Settings","linear-gradient(#b8b8be,#7c7c82)","⚙️"],["Calendar","#fff","📅"],["Wallet","#111","💳"],["Health","#fff","❤️"],["FaceTime","linear-gradient(#5fe07c,#1fb83f)","📹"],["Music","linear-gradient(#ff6a86,#fa233b)","🎵"],["App Store","linear-gradient(#2aa4ff,#0a6cff)","🅰️"],["Files","linear-gradient(#4aa8ff,#1067f0)","🗂️"],["Find My","linear-gradient(#5fe07c,#1fb83f)","📍"],["Contacts","linear-gradient(#e5e5ea,#c7c7cc)","👤"]];
+const WALL=["radial-gradient(130% 90% at 30% 15%,#dba746,#bb7d1f 65%,#a96d16)","linear-gradient(165deg,#1b2a6b,#6a4bd8 45%,#ff7eb3)","linear-gradient(165deg,#0f2027,#2c5364 60%,#5aa6c2)","linear-gradient(165deg,#f7971e,#ff5e62 55%,#6a1b9a)","linear-gradient(165deg,#0b0b1a,#1d1d3a 50%,#3b2a73)","linear-gradient(165deg,#a1c4fd,#c2e9fb 50%,#fbc2eb)","linear-gradient(165deg,#134e5e,#71b280)"];
+let uid=0;
+const S={cells:Array(24).fill(null),dock:Array(4).fill(null),notifs:[],wall:0,wallImg:null,view:"home",time:"11:50",batt:63,net:"5G+",mute:true,labels:false,sel:null,tab:"Apps",q:"",res:[],loading:false,err:"",banner:null};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const short=n=>n.split(/ [-–—|:] |: /)[0].trim();
+const all=()=>[...S.cells,...S.dock].filter(Boolean),find=i=>all().find(a=>a.id==i);
+const loc=id=>{let i=S.cells.findIndex(a=>a&&a.id==id);if(i>=0)return{k:"c",i};i=S.dock.findIndex(a=>a&&a.id==id);return i>=0?{k:"d",i}:null};
+const arr=k=>k=="c"?S.cells:S.dock;
+const ic=(a,nb)=>`<div class="ic" style="background:${a.img?"#222":a.bg||"#8e8e93"}">${a.img?`<img src="${esc(a.img)}" alt="" draggable="false">`:(a.g||esc((a.name||"?")[0]))}${a.badge&&!nb?`<div class="badge">${a.badge}</div>`:""}</div>`;
+const tile=(a,k,i)=>a?`<div class="app ${S.sel==a.id?"sel":""}" onclick="tap('${k}',${i})">${ic(a)}${k=="c"&&S.labels?`<span class="n">${esc(a.name)}</span>`:""}</div>`:`<div class="app empty" onclick="tap('${k}',${i})"></div>`;
+const ban=n=>{const a=find(n.app)||{bg:"#555",g:"🔔"};return `<div class="ban">${ic(a,1)}<div class="tx"><b>${esc(n.title)}</b><small>${esc(n.body)}</small></div><span class="t">${esc(n.t)}</span></div>`};
+const SIG='<svg viewBox="0 0 18 12" style="height:3.3cqw"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.500" width="3" height="6.500" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>';
+const BELL='<svg viewBox="0 0 24 24" style="height:4cqw;opacity:.8"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.100-1.600-5.600-4.500-6.300V4a1.500 1.500 0 0 0-3 0v.7C7.600 5.400 6 7.900 6 11v5l-2 2v1h16v-1z"/><path d="M3 3l18 18" stroke="#fff" stroke-width="2.200"/></svg>';
+function phone(){const p=document.getElementById("phone");p.style.background=S.wallImg?`url(${S.wallImg}) center/cover`:WALL[S.wall];p.className="phone"+(S.labels?" labels":"")+(S.sel?" moving":"");
+const b=Math.max(0,Math.min(100,S.batt));
+let h=`<div class="island"></div><div class="status"><span class="l">${esc(S.time)}${S.mute?BELL:""}</span><span class="r">${SIG}<span style="font-size:4cqw">${esc(S.net)}</span><span class="bat" style="background:linear-gradient(90deg,#fff ${b}%,rgba(255,255,255,.4) ${b}%)">${b}</span></span></div>`;
+if(S.view=="lock"){h+=`<div class="lock"><div class="d">Monday, October 26</div><div class="c">${esc(S.time)}</div><div class="list">${S.notifs.slice(-4).map(ban).join("")}</div><div class="btn2" style="left:9cqw">🔦</div><div class="btn2" style="right:9cqw">📷</div></div>`}
+else{if(S.banner)h+=`<div class="pop">${ban(S.banner)}</div>`;
+h+=`<div class="grid">${S.cells.map((a,i)=>tile(a,"c",i)).join("")}</div><div class="search">🔍 Search</div><div class="dock">${S.dock.map((a,i)=>tile(a,"d",i)).join("")}</div>`}
+p.innerHTML=h+`<div class="home-ind"></div>`}
+function tap(k,i){const a=arr(k)[i];if(!S.sel){if(a)S.sel=a.id}else if(a&&a.id==S.sel)S.sel=null;else{const from=loc(S.sel),mv=find(S.sel);arr(from.k)[from.i]=a||null;arr(k)[i]=mv;S.sel=null}S.tab="Apps";render()}
+function put(a,dock){let t=dock?S.dock:S.cells,i=t.indexOf(null);if(i<0){t=dock?S.cells:S.dock;i=t.indexOf(null)}if(i<0)return alert("Home screen is full.");t[i]=a;S.sel=a.id}
+function addApp(x,dock){const a={id:++uid,name:x.name,bg:x.bg||"#8e8e93",g:x.g||"",img:x.img||null,badge:0};put(a,dock);if(!a.img&&x.sys)upg(a);render()}
+function rm(){const l=loc(S.sel);arr(l.k)[l.i]=null;S.notifs=S.notifs.filter(n=>n.app!=S.sel);S.sel=null;render()}
+function mvto(){const l=loc(S.sel),a=find(S.sel);arr(l.k)[l.i]=null;put(a,l.k=="c");render()}
+function up(e,f2){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{if(f2=="w"){S.wallImg=r.result;render();return}const a=find(S.sel);const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=256;const x=c.getContext("2d");const s=Math.min(im.width,im.height);x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,256,256);a.img=c.toDataURL("image/png");render()};im.src=r.result};r.readAsDataURL(f)}
+async function look(q,n){const r=await fetch("https://itunes.apple.com/search?entity=software&limit="+(n||15)+"&term="+encodeURIComponent(q));if(!r.ok)throw 0;const j=await r.json();return j.results.map(x=>({name:short(x.trackName),dev:x.sellerName,img:x.artworkUrl512||x.artworkUrl100}))}
+async function appleIcon(name){try{let r,j;if(name=="Phone"){r=await fetch("https://itunes.apple.com/lookup?id=1146562108");j=await r.json();return j.results[0]&&j.results[0].artworkUrl512}
+r=await fetch("https://itunes.apple.com/search?entity=software&limit=25&term="+encodeURIComponent(name+" apple"));j=await r.json();const m=j.results.find(x=>/^apple/i.test(x.sellerName)&&short(x.trackName).toLowerCase()==name.toLowerCase());return m&&m.artworkUrl512}catch(e){return null}}
+function upg(a){appleIcon(a.name).then(u=>{if(u){a.img=u;phone()}})}
+let tm;function onq(v){S.q=v;clearTimeout(tm);tm=setTimeout(async()=>{if(!v.trim()){S.res=[];S.err="";return res()}S.loading=true;S.err="";res();try{S.res=await look(v)}catch(e){S.res=[];S.err="Couldn’t reach the App Store. Open this file in a regular browser tab with an internet connection."}S.loading=false;res()},350)}
+function res(){const el=document.getElementById("res");if(!el)return;const q=S.q.toLowerCase();const sys=q?SYS.filter(s=>s[0].toLowerCase().includes(q)).map(s=>({name:s[0],dev:"Apple (built-in)",bg:s[1],g:s[2],sys:1})):[];
+const list=[...sys,...S.res];window._l=list;
+el.innerHTML=(S.loading?'<p class="h">Searching the App Store…</p>':"")+(S.err?`<div class="err">${esc(S.err)}</div>`:"")+list.map((a,i)=>`<div class="res">${ic({...a,badge:0},1)}<div class="m"><b>${esc(a.name)}</b><small>${esc(a.dev||"")}</small></div><button class="btn s" onclick="addApp(_l[${i}])">Add</button><button class="btn s g" onclick="addApp(_l[${i}],1)">Dock</button></div>`).join("")}
+function addN(){const a=+document.getElementById("na").value,t=document.getElementById("nt").value||"New notification",b=document.getElementById("nb").value||"";const n={app:a,title:t,body:b,t:"now"};S.notifs.push(n);const x=find(a);if(document.getElementById("nbd").checked&&x)x.badge++;S.view="home";flash(n);render()}
+let bt;function flash(n){S.banner=n;clearTimeout(bt);bt=setTimeout(()=>{S.banner=null;phone()},4200)}
+function render(){
+document.getElementById("tabs").innerHTML=["Apps","Notifs","Look"].map(t=>`<button class="${S.tab==t?"on":""}" onclick="S.tab='${t}';render()">${t}</button>`).join("");
+const P=document.getElementById("panel");let h="";
+if(S.tab=="Apps"){const a=find(S.sel);
+if(a)h+=`<p class="h" style="margin:0 0 8px"><b>Move mode:</b> tap an empty spot (or another app to swap) on the phone.</p><label>Name</label><input value="${esc(a.name)}" oninput="find(S.sel).name=this.value;phone()"><div class="row" style="margin-bottom:10px"><label>Badge</label><input type="number" min="0" style="width:80px;margin:0" value="${a.badge}" oninput="find(S.sel).badge=+this.value;phone()"><button class="btn g s" onclick="mvto()">${loc(a.id).k=="d"?"Move to home":"Move to dock"}</button></div><div class="row" style="margin-bottom:12px"><label class="btn g s" style="margin:0">Custom icon<input type="file" accept="image/*" hidden onchange="up(event)"></label><button class="btn r s" onclick="rm()">Remove</button><button class="btn g s" onclick="S.sel=null;render()">Done</button></div>`;
+else h+=`<p class="h" style="margin:0 0 8px">Tap an app on the phone to edit or move it.</p>`;
+h+=`<label>Search the App Store</label><input id="q" placeholder="Instagram, Duolingo, Minecraft…" value="${esc(S.q)}" oninput="onq(this.value)"><div id="res"></div>`}
+if(S.tab=="Notifs"){h+=`<label>App</label><select id="na">${all().map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join("")}</select><label>Title</label><input id="nt" placeholder="Sender or title"><label>Message</label><input id="nb" placeholder="Message text"><label class="chk"><input type="checkbox" id="nbd" checked> Add badge to app icon</label><div class="row"><button class="btn" onclick="addN()">Send notification</button><button class="btn g" onclick="S.notifs=[];all().forEach(a=>a.badge=0);render()">Clear all</button></div><p class="h">${S.notifs.length} notification${S.notifs.length==1?"":"s"} on the lock screen.</p>`}
+if(S.tab=="Look"){h+=`<label>Screen</label><div class="row" style="margin:4px 0 12px"><button class="btn ${S.view=="home"?"":"g"}" onclick="S.view='home';render()">Home</button><button class="btn ${S.view=="lock"?"":"g"}" onclick="S.view='lock';render()">Lock screen</button></div><div class="row"><div style="flex:1"><label>Time</label><input value="${esc(S.time)}" oninput="S.time=this.value;phone()"></div><div style="flex:1"><label>Battery %</label><input type="number" min="0" max="100" value="${S.batt}" oninput="S.batt=+this.value;phone()"></div><div style="flex:1"><label>Network</label><input value="${esc(S.net)}" oninput="S.net=this.value;phone()"></div></div><label class="chk"><input type="checkbox" ${S.mute?"checked":""} onchange="S.mute=this.checked;phone()"> Silent mode bell</label><label class="chk"><input type="checkbox" ${S.labels?"checked":""} onchange="S.labels=this.checked;phone()"> Show app names</label><label>Wallpaper</label><div class="row" style="margin-top:6px">${WALL.map((w,i)=>`<div class="sw ${!S.wallImg&&S.wall==i?"on":""}" style="background:${w}" onclick="S.wall=${i};S.wallImg=null;render()"></div>`).join("")}<label class="btn g s">Upload<input type="file" accept="image/*" hidden onchange="up(event,'w')"></label></div><p class="h">Widgets are coming in a later version.</p>`}
+P.innerHTML=h;phone();if(S.tab=="Apps")res()}
+// starting layout, with gaps like a real home screen; icons are replaced by the real App Store art
+const LAY=["Wallet","Photos","Mail","Clock",null,"Maps","Weather","Camera","Calendar",null,"App Store","Find My","Instagram","Spotify",null,"YouTube","Settings",null,null,"Contacts"];
+const lookup=n=>SYS.find(s=>s[0]==n);
+function seed(n,arrx,i){const s=lookup(n);const a={id:++uid,name:n,bg:s?s[1]:"#8e8e93",g:s?s[2]:"",img:null,badge:0};arrx[i]=a;
+if(s)upg(a);else look(n,1).then(r=>{if(r[0]){a.img=r[0].img;a.name=r[0].name;phone()}}).catch(()=>{})}
+LAY.forEach((n,i)=>{if(n)seed(n,S.cells,i)});
+["Phone","Messages","Safari",null].forEach((n,i)=>{if(n)seed(n,S.dock,i)});
+S.notifs.push({app:S.cells[0].id,title:"Wallet",body:"Your card ending in 4417 was used.",t:"now"});
+render();
+</script></body></html>
